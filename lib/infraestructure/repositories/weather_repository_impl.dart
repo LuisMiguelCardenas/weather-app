@@ -10,8 +10,13 @@ final WeatherDatasource datasource;
   WeatherRepositoryImpl(this.datasource);
 
   @override
-  Future<WeatherData> getCurrent() {
-    return datasource.getCurrent();
+  Future<WeatherData> getCurrent({String lat='0', String lon='0'}) {
+    return datasource.getCurrent(lat: lat, lon: lon);
+  }
+  
+  @override
+  Future<WeatherData> getByCity({String city = 'London'}) {
+    return datasource.getByCity(city: city);
   }
 
 }

@@ -126,8 +126,8 @@ class Main {
         tempMax: json["temp_max"]?.toDouble(),
         pressure: json["pressure"],
         humidity: json["humidity"],
-        seaLevel: json["sea_level"],
-        grndLevel: json["grnd_level"],
+        seaLevel: json["sea_level"] != null ? json["sea_level"] as int : 0,
+        grndLevel: json["grnd_level"] != null ? json["grnd_level"]as int : 0,
     );
 
     Map<String, dynamic> toJson() => {
@@ -158,9 +158,9 @@ class Sys {
     });
 
     factory Sys.fromJson(Map<String, dynamic> json) => Sys(
-        type: json["type"],
-        id: json["id"],
-        country: json["country"],
+        type: json["type"] != null ? json["type"] as int:0,
+        id: json["id"] != null ? json["id"] as int :0,
+        country: json["country"] != null ? json["country"] as String : '',
         sunrise: json["sunrise"],
         sunset: json["sunset"],
     );
@@ -216,7 +216,7 @@ class Wind {
     factory Wind.fromJson(Map<String, dynamic> json) => Wind(
         speed: json["speed"]?.toDouble(),
         deg: json["deg"],
-        gust: json["gust"]?.toDouble(),
+        gust: json["gust"] != null ? json["gust"].toDouble():0,
     );
 
     Map<String, dynamic> toJson() => {

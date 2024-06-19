@@ -4,19 +4,23 @@ import 'package:clima_exito/infraestructure/models/openweather/openweather_respo
 class WeatherMapper {
 
   static WeatherData openWeatherToEntity( OpenWeatherResponse openWeatherResponse ) => WeatherData(
-    coord: openWeatherResponse.coord,
     base: openWeatherResponse.base,
-    clouds: openWeatherResponse.clouds as dynamic,
+    clouds: openWeatherResponse.clouds.all, 
     cod: openWeatherResponse.cod,
     dt: openWeatherResponse.dt,
     id: openWeatherResponse.id,
-    main: openWeatherResponse.main as dynamic,
+    temperature: openWeatherResponse.main.temp,
+    humidity: openWeatherResponse.main.humidity,
     name: openWeatherResponse.name,
-    sys: openWeatherResponse.sys as dynamic,
     timezone: openWeatherResponse.timezone,
     visibility: openWeatherResponse.visibility,
-    weather: openWeatherResponse.weather as dynamic,
-    wind: openWeatherResponse.wind as dynamic
+    idWeather: openWeatherResponse.weather[0].id,
+    mainWeather: openWeatherResponse.weather[0].main,
+    descriptionWeather: openWeatherResponse.weather[0].description,
+    iconWeather: openWeatherResponse.weather[0].icon,
+    windDeg: openWeatherResponse.wind.deg,
+    windGust: openWeatherResponse.wind.gust,
+    windSpeed: openWeatherResponse.wind.speed
   );
 
 }
