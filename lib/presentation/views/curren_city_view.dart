@@ -1,12 +1,9 @@
 import 'package:clima_exito/presentation/providers/weathers/weathers_providers.dart';
-import 'package:clima_exito/presentation/widgets/weather/next_days_weather.dart';
-import 'package:clima_exito/presentation/widgets/weather/today_weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
-
-import '../widgets/weather/general_description_weather.dart';
+import '../widgets/widgets.dart';
 
 final positionProvider =
     StateNotifierProvider<PositionNotifier, Position?>((ref) {
@@ -68,10 +65,6 @@ class CurrentCityViewState extends ConsumerState<CurrentCityView> {
             position.latitude.toString(),
             position.longitude.toString(),
           );
-
-
-
-
     }
   }
 
@@ -79,20 +72,15 @@ class CurrentCityViewState extends ConsumerState<CurrentCityView> {
   Widget build(BuildContext context) {
     final currentWeather = ref.watch(currentWeatherProvider);
 
-
-
-    if (currentWeather.iconWeather == '' || currentWeather.descriptionWeather.isEmpty) {
+    if (currentWeather.iconWeather == '' ||
+        currentWeather.descriptionWeather.isEmpty) {
       return const Center(
           child: CircularProgressIndicator(
         strokeWidth: 2,
       ));
     }
 
-    return Column(children: [
-      GeneralDescriptionWeather(weatherData: currentWeather, ref: ref),
-       TodayWeather(lat: currentWeather.lat, lon: currentWeather.lon,),
-       NextDaysWeather (lat: currentWeather.lat, lon: currentWeather.lon,),
-      ]);
+    return CityDescription(weather: currentWeather, ref: ref);
   }
 }
 

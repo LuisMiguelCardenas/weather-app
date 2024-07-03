@@ -83,39 +83,57 @@ class _CardWeather extends StatelessWidget {
   const _CardWeather({required this.cityWeather});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
+Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 20),
+    child: Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
-          onPressed: () => context.push('/city/${cityWeather.name}'),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colors.primaryContainer
+        ),
+        onPressed: () => context.push('/city/${cityWeather.name}'),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '${cityWeather.temperature.round()}\u00B0',
                       style: const TextStyle(
-                          fontSize: 45, fontWeight: FontWeight.w300),
+                        fontSize: 45,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     Text(
                       cityWeather.name,
                       style: const TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.w600),
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
-                Image.network(
-                  'https://openweathermap.org/img/wn/${cityWeather.iconWeather}@2x.png',
-                  height: 130,
-                  fit: BoxFit.cover,
-                ),
-              ],
-            ),
-          )),
-    );
-  }
+              ),
+             const SizedBox(width: 10), // Espacio entre el texto y la imagen
+              Image.network(
+                'https://openweathermap.org/img/wn/${cityWeather.iconWeather}@2x.png',
+                height: 130,
+                fit: BoxFit.cover,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
 }

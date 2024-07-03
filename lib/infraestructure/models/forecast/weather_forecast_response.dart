@@ -299,7 +299,7 @@ class Weather {
 
     factory Weather.fromJson(Map<String, dynamic> json) => Weather(
         id: json["id"] ?? 0,
-        main: mainEnumValues.map[json["main"]] ?? MainEnum.CLEAR,
+        main: mainEnumValues.map[json["main"]] ?? MainEnum.clear,
         description: json["description"] ?? "",
         icon: json["icon"] ?? "",
     );
@@ -313,15 +313,15 @@ class Weather {
 }
 
 enum MainEnum {
-    CLEAR,
-    CLOUDS,
-    RAIN
+    clear,
+    clouds,
+    rain
 }
 
 final mainEnumValues = EnumValues({
-    "Clear": MainEnum.CLEAR,
-    "Clouds": MainEnum.CLOUDS,
-    "Rain": MainEnum.RAIN
+    "Clear": MainEnum.clear,
+    "Clouds": MainEnum.clouds,
+    "Rain": MainEnum.rain
 });
 
 class Wind {

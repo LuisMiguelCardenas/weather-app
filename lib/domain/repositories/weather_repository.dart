@@ -1,6 +1,6 @@
 
 import 'package:clima_exito/domain/entities/weather.dart';
-import 'package:clima_exito/domain/entities/weatherForecast.dart';
+import 'package:clima_exito/domain/entities/weather_forecast.dart';
 
 abstract class WeatherRepository {
 

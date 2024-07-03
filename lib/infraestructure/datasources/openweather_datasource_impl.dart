@@ -1,7 +1,7 @@
 import 'package:clima_exito/config/constants/environment.dart';
 import 'package:clima_exito/domain/datasources/weather_datasource.dart';
 import 'package:clima_exito/domain/entities/weather.dart';
-import 'package:clima_exito/domain/entities/weatherForecast.dart';
+import 'package:clima_exito/domain/entities/weather_forecast.dart';
 import 'package:clima_exito/infraestructure/mappers/forecast_mapper.dart';
 import 'package:clima_exito/infraestructure/mappers/weather_mapper.dart';
 import 'package:clima_exito/infraestructure/models/forecast/weather_forecast_response.dart';

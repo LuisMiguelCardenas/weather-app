@@ -1,4 +1,4 @@
-import 'package:clima_exito/domain/entities/weatherForecast.dart';
+import 'package:clima_exito/domain/entities/weather_forecast.dart';
 import 'package:clima_exito/infraestructure/models/forecast/weather_forecast_response.dart';
 
 class WeatherForeastMapper {

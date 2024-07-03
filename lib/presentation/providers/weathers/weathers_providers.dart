@@ -1,5 +1,5 @@
 import 'package:clima_exito/domain/entities/weather.dart';
-import 'package:clima_exito/domain/entities/weatherForecast.dart';
+import 'package:clima_exito/domain/entities/weather_forecast.dart';
 import 'package:clima_exito/presentation/providers/weathers/weathers_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diacritic/diacritic.dart';

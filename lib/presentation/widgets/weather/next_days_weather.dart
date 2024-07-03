@@ -33,41 +33,61 @@ class NextDaysWeatherState extends ConsumerState<NextDaysWeather> {
     final colors = Theme.of(context).colorScheme;
     final weatherdays = ref.watch(cityForecastProvider);
     final filterDayNotToday = filterForecastsByDate(weatherdays);
-    return Expanded(
-        child: ListView.builder(
-      scrollDirection: Axis.vertical,
-      itemCount: filterDayNotToday.length,
-      itemBuilder: (context, index) {
-        //return Placeholder();
-        return FadeIn(
-            child: Container(
-          decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: colors.onSecondaryContainer, width: 1.0)),
-            color: colors.surfaceContainerHigh,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  DateFormat('EEEE dd MMMM')
-                    .format(filterDayNotToday[index].datehour)
-                    .toString()
-                    ),
-                Image.network(
-                  'https://openweathermap.org/img/wn/${weatherdays[index].icon}@2x.png',
-                  // weatherForecast[0].icon,
-                  fit: BoxFit.cover,
-                  width: 50,
-                ),
-                Text(
-                    '${weatherdays[index].temMin.round()}\u00B0 / ${weatherdays[index].tempMax.round()}\u00B0')
-              ],
+
+    final titleStyle = Theme.of(context).textTheme.titleMedium;
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Next Days',
+              style: titleStyle,
             ),
           ),
-        ));
-      },
-    ));
+        ),
+        SizedBox(
+          height: 280,
+          child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: filterDayNotToday.length,
+            itemBuilder: (context, index) {
+              return FadeIn(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 3),
+                  decoration: BoxDecoration(
+                    borderRadius:  BorderRadius.circular(10),
+                    border: Border(
+                        top: BorderSide(
+                            color: colors.onPrimaryFixed, width: 1.0)),
+                    color: colors.surfaceContainerHigh,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(DateFormat('EEEE dd MMMM')
+                            .format(filterDayNotToday[index].datehour)
+                            .toString()),
+                        Image.network(
+                          'https://openweathermap.org/img/wn/${weatherdays[index].icon}@2x.png',
+                          // weatherForecast[0].icon,
+                          fit: BoxFit.cover,
+                          width: 50,
+                        ),
+                        Text(
+                            '${weatherdays[index].temMin.round()}\u00B0 / ${weatherdays[index].tempMax.round()}\u00B0')
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        )
+      ],
+    );
   }
 }

@@ -17,9 +17,6 @@ class HomeScreen extends ConsumerWidget {
          actions: [
           IconButton(
               onPressed: () {
-
-                // ref.read(isDarkmodeProvider.notifier).update((state) => !state);
-
                 ref.read(themeNotifierProvider.notifier).toggleDarkMode();
               },
               icon: Icon(isDarkmode
