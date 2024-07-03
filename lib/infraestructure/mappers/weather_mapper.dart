@@ -4,6 +4,8 @@ import 'package:clima_exito/infraestructure/models/openweather/openweather_respo
 class WeatherMapper {
 
   static WeatherData openWeatherToEntity( OpenWeatherResponse openWeatherResponse ) => WeatherData(
+    lat: openWeatherResponse.coord.lat,
+    lon: openWeatherResponse.coord.lon,
     base: openWeatherResponse.base,
     clouds: openWeatherResponse.clouds.all, 
     cod: openWeatherResponse.cod,

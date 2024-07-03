@@ -1,5 +1,6 @@
 import 'package:clima_exito/domain/datasources/weather_datasource.dart';
 import 'package:clima_exito/domain/entities/weather.dart';
+import 'package:clima_exito/domain/entities/weatherForecast.dart';
 import 'package:clima_exito/domain/repositories/weather_repository.dart';
 
 class WeatherRepositoryImpl extends WeatherRepository {
@@ -15,8 +16,13 @@ final WeatherDatasource datasource;
   }
   
   @override
-  Future<WeatherData> getByCity({String city = 'London'}) {
-    return datasource.getByCity(city: city);
+  Future<WeatherData> getByCity(String city) {
+    return datasource.getByCity(city);
+  }
+  
+  @override
+  Future<List<WeatherForecast>> getTimeAndNextDays({String lat = '', String lon = ''}) {
+    return datasource.getTimeAndNextDays(lat: lat,lon: lon);
   }
 
 }

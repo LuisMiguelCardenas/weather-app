@@ -2,15 +2,17 @@ import 'package:clima_exito/domain/entities/weather.dart';
 import 'package:clima_exito/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class CitiesView extends ConsumerStatefulWidget {
-  const CitiesView({super.key});
+class CitiesScreen extends ConsumerStatefulWidget {
+  static const name = 'cities-screen';
+  const CitiesScreen({super.key});
 
   @override
   CitiesViewState createState() => CitiesViewState();
 }
 
-class CitiesViewState extends ConsumerState<CitiesView> {
+class CitiesViewState extends ConsumerState<CitiesScreen> {
   @override
   void initState() {
     super.initState();
@@ -63,7 +65,6 @@ class CitiesViewState extends ConsumerState<CitiesView> {
           if (_displayCityText.isNotEmpty)
             Expanded(
                 child: ListView.builder(
-                    // controller: scrollController,
                     itemCount: citiesWeather.length,
                     scrollDirection: Axis.vertical,
                     physics: const BouncingScrollPhysics(),
@@ -86,7 +87,7 @@ class _CardWeather extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () => context.push('/city/${cityWeather.name}'),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
             child: Row(
@@ -98,18 +99,18 @@ class _CardWeather extends StatelessWidget {
                     Text(
                       '${cityWeather.temperature.round()}\u00B0',
                       style: const TextStyle(
-                          fontSize: 50, fontWeight: FontWeight.w300),
+                          fontSize: 45, fontWeight: FontWeight.w300),
                     ),
                     Text(
                       cityWeather.name,
                       style: const TextStyle(
-                          fontSize: 30, fontWeight: FontWeight.w600),
+                          fontSize: 25, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
                 Image.network(
                   'https://openweathermap.org/img/wn/${cityWeather.iconWeather}@2x.png',
-                  height: 160,
+                  height: 130,
                   fit: BoxFit.cover,
                 ),
               ],

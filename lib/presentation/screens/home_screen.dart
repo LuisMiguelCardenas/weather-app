@@ -1,47 +1,36 @@
-import 'package:clima_exito/presentation/views/cities_screen.dart';
+import 'package:clima_exito/presentation/providers/theme/theme_provider.dart';
 import 'package:clima_exito/presentation/views/curren_city_view.dart';
 import 'package:flutter/material.dart';
-class HomeScreen extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class HomeScreen extends ConsumerWidget {
   static const name = 'home-screen';
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  Widget build(BuildContext context, ref) {
+        final isDarkmode = ref.watch(themeNotifierProvider).isDarkmode;
 
-class _HomeScreenState extends State<HomeScreen> {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Exito- weather'),
+         actions: [
+          IconButton(
+              onPressed: () {
 
- int selectedIndex = 0;
+                // ref.read(isDarkmodeProvider.notifier).update((state) => !state);
 
-  @override
-  Widget build(BuildContext context) {
-    final views = [
-      const CurrentCityView(),
-      const CitiesView()
-    ];
-
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(padding: EdgeInsets.all(26), child: views[selectedIndex]),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: (valueSelected) {
-            setState(() {
-              selectedIndex = valueSelected;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home'),
-          
-                      BottomNavigationBarItem(
-                icon: Icon(Icons.location_city),
-                label: 'City'),
-          ],
-        ),
+                ref.read(themeNotifierProvider.notifier).toggleDarkMode();
+              },
+              icon: Icon(isDarkmode
+                  ? Icons.dark_mode_outlined
+                  : Icons.light_mode_outlined))
+        ],
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: CurrentCityView(),
       ),
     );
   }
 }
-

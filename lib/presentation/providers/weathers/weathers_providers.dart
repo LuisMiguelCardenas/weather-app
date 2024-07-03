@@ -1,4 +1,5 @@
 import 'package:clima_exito/domain/entities/weather.dart';
+import 'package:clima_exito/domain/entities/weatherForecast.dart';
 import 'package:clima_exito/presentation/providers/weathers/weathers_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diacritic/diacritic.dart';
@@ -15,10 +16,20 @@ final cityWeatherProvider =
   return WeathersCityNotifier(fetchCityWeather: fetchCityWeather);
 });
 
+final cityForecastProvider =
+    StateNotifierProvider<ForecastCityNotifier, List<WeatherForecast>>((ref) {
+  final fetchForecastWeather =
+      ref.watch(weatherRepositoryProvider).getTimeAndNextDays;
+  return ForecastCityNotifier(fetchForecastWeather: fetchForecastWeather);
+});
+
 typedef WeatherCallBack = Future<WeatherData> Function(
     {String lat, String lon});
 
-typedef WeatherCityCallBack = Future<WeatherData> Function({String city});
+typedef WeatherCityCallBack = Future<WeatherData> Function(String city);
+
+typedef ForecastCallBack = Future<List<WeatherForecast>> Function(
+    {String lat, String lon});
 
 class WeathersNotifier extends StateNotifier<WeatherData> {
   String currentLon = '-74.0817';
@@ -27,6 +38,8 @@ class WeathersNotifier extends StateNotifier<WeatherData> {
 
   WeathersNotifier({required this.fetchMoreWeather})
       : super(WeatherData(
+          lat: 0,
+          lon: 0,
           windDeg: 0,
           windGust: 0,
           windSpeed: 0,
@@ -61,13 +74,31 @@ class WeathersCityNotifier extends StateNotifier<List<WeatherData>> {
   WeathersCityNotifier({required this.fetchCityWeather}) : super([]);
 
   Future<void> loadCityWeather(String city) async {
+
     if (state.any((e) =>
         removeDiacritics(e.name.toUpperCase()) ==
         removeDiacritics(city.toUpperCase()))) {
       return;
     }
 
-    final WeatherData weather = await fetchCityWeather(city: city);
+    final WeatherData weather = await fetchCityWeather(city);
+  
+    if(weather.name =='no_name') return;
     state = [weather, ...state];
+  }
+}
+
+class ForecastCityNotifier extends StateNotifier<List<WeatherForecast>> {
+  String currentLon = '-74.0817';
+  String currentLat = '4.6097';
+  ForecastCallBack fetchForecastWeather;
+
+  ForecastCityNotifier({required this.fetchForecastWeather}) : super([]);
+
+  Future<void> loadForecastWeather(String currentLat, String currentLon) async {
+    final List<WeatherForecast> weathers =
+        await fetchForecastWeather(lat: currentLat, lon: currentLon);
+
+    state = [...weathers];
   }
 }

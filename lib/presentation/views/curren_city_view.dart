@@ -1,12 +1,15 @@
-import 'package:clima_exito/config/helpers/helpers.dart';
-import 'package:clima_exito/domain/entities/weather.dart';
 import 'package:clima_exito/presentation/providers/weathers/weathers_providers.dart';
+import 'package:clima_exito/presentation/widgets/weather/next_days_weather.dart';
+import 'package:clima_exito/presentation/widgets/weather/today_weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
-final positionProvider = StateNotifierProvider<PositionNotifier, Position?>((ref) {
+
+import '../widgets/weather/general_description_weather.dart';
+
+final positionProvider =
+    StateNotifierProvider<PositionNotifier, Position?>((ref) {
   return PositionNotifier();
 });
 
@@ -35,7 +38,7 @@ Future<Position> _determinePosition() async {
 
   if (permission == LocationPermission.deniedForever) {
     return Future.error(
-      'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.');
   }
 
   return await Geolocator.getCurrentPosition();
@@ -52,128 +55,45 @@ class CurrentCityViewState extends ConsumerState<CurrentCityView> {
   @override
   void initState() {
     super.initState();
+    _initialize();
+  }
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(positionProvider.notifier).updatePosition();
-      final position = ref.read(positionProvider);
-      if (position != null) {
-        ref.read(currentWeatherProvider.notifier).loadNextWeather(position.latitude.toString(), position.longitude.toString());
-      }
-    });
+  Future<void> _initialize() async {
+    if (!mounted) return;
+    await ref.read(positionProvider.notifier).updatePosition();
+    if (!mounted) return;
+    final position = ref.read(positionProvider);
+    if (position != null) {
+      ref.read(currentWeatherProvider.notifier).loadNextWeather(
+            position.latitude.toString(),
+            position.longitude.toString(),
+          );
+
+
+
+
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final currentWeather = ref.watch(currentWeatherProvider);
-    final now = DateTime.now();
-    final formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    final imageCurrent = currentWeather.iconWeather.isNotEmpty ? currentWeather.iconWeather : '';
 
-    return Scaffold(
-      body: Center(
-        child: currentWeather.descriptionWeather.isEmpty
-            ? const CircularProgressIndicator()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Today',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    currentWeather.name != '' ? currentWeather.name : 'Unknown',
-                    style: const TextStyle(
-                        fontSize: 40, fontWeight: FontWeight.w400),
-                  ),
-                  Text(
-                    formattedDate,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.network(
-                        'https://openweathermap.org/img/wn/$imageCurrent@2x.png',
-                        height: 180,
-                        fit: BoxFit.cover,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            '${currentWeather.temperature.round().toString()}\u00B0',
-                            style: const TextStyle(
-                                fontSize: 60, fontWeight: FontWeight.w300),
-                          ),
-                          Transform.translate(
-                            offset: const Offset(0, -10),
-                            child: Text(
-                              capitalize(currentWeather.descriptionWeather),
-                              style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                  _IconsDescription(currentWeather: currentWeather),
-                ],
-              ),
-      ),
-    );
+
+
+    if (currentWeather.iconWeather == '' || currentWeather.descriptionWeather.isEmpty) {
+      return const Center(
+          child: CircularProgressIndicator(
+        strokeWidth: 2,
+      ));
+    }
+
+    return Column(children: [
+      GeneralDescriptionWeather(weatherData: currentWeather, ref: ref),
+       TodayWeather(lat: currentWeather.lat, lon: currentWeather.lon,),
+       NextDaysWeather (lat: currentWeather.lat, lon: currentWeather.lon,),
+      ]);
   }
 }
 
-class _IconsDescription extends StatelessWidget {
-  const _IconsDescription({
-    required this.currentWeather,
-  });
 
-  final WeatherData currentWeather;
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> weatherDetails = [
-      {'icon': Icons.air, 'value': '${currentWeather.windSpeed} m/s'},
-      {'icon': Icons.cloud, 'value': '${currentWeather.clouds} %'},
-      {
-        'icon': Icons.water_drop_outlined,
-        'value': '${currentWeather.humidity} %'
-      }
-    ];
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: weatherDetails.map((detail) {
-        return Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.zero,
-                minimumSize: const Size(50, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-              ),
-              child: Icon(
-                detail['icon'],
-                size: 30,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              detail['value'],
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-          ],
-        );
-      }).toList(),
-    );
-  }
-}
