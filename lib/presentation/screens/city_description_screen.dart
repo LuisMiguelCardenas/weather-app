@@ -35,10 +35,24 @@ class CityDescriptionScreenState extends ConsumerState<CityDescriptionScreen> {
       ));
     }
 
-    return SafeArea(
-        child: CityDescription(
-      weather: city,
-      ref: ref,
-    ));
+    final isDarkmode = ref.watch(themeNotifierProvider).isDarkmode;
+
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                ref.read(themeNotifierProvider.notifier).toggleDarkMode();
+              },
+              icon: Icon(isDarkmode
+                  ? Icons.dark_mode_outlined
+                  : Icons.light_mode_outlined))
+        ],
+      ),
+      body: CityDescription(
+        weather: city,
+        ref: ref,
+      ),
+    );
   }
 }

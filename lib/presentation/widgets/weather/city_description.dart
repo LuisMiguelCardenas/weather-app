@@ -2,7 +2,6 @@
 import 'package:clima_exito/domain/entities/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../widgets.dart';
 
 class CityDescription extends StatelessWidget {

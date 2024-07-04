@@ -17,7 +17,7 @@ class GeneralDescriptionWeather extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final colors = Theme.of(context).colorScheme;
     final now = DateTime.now();
     final formattedDate = DateFormat('dd-MM-yyyy').format(now);
     final imageCurrent =
@@ -38,12 +38,14 @@ class GeneralDescriptionWeather extends StatelessWidget {
                 ),
                 Text(
                   weatherData.name.isNotEmpty ? weatherData.name : 'Unknown',
-                  style: const TextStyle(
-                      fontSize: 40, fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w400,
+                      color: colors.primary),
                 ),
                 Text(
                   formattedDate,
-                  style: const TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14, color: colors.primary),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -57,16 +59,19 @@ class GeneralDescriptionWeather extends StatelessWidget {
                       children: [
                         Text(
                           '${weatherData.temperature.round()}\u00B0',
-                          style: const TextStyle(
-                              fontSize: 60, fontWeight: FontWeight.w300),
+                          style: TextStyle(
+                              fontSize: 60,
+                              fontWeight: FontWeight.w300,
+                              color: colors.primary),
                         ),
                         Transform.translate(
                           offset: const Offset(0, -10),
                           child: Text(
                             capitalize(weatherData.descriptionWeather),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
+                              color: colors.primary
                             ),
                           ),
                         ),

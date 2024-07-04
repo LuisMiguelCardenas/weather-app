@@ -1,3 +1,4 @@
+import 'package:clima_exito/config/constants/colors_contants.dart';
 import 'package:clima_exito/domain/entities/weather_forecast.dart';
 
 String capitalize(String text) {
@@ -32,4 +33,9 @@ List<WeatherForecast> filterForecastsByDate(List<WeatherForecast> weatherDays) {
   }).toList();
 
   return filteredList;
+}
+
+
+String getColorName(int colorValue) {
+  return colorNames[colorValue] ?? 'Unknown color';
 }

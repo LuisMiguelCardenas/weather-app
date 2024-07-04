@@ -8,28 +8,6 @@ import 'package:clima_exito/infraestructure/models/forecast/weather_forecast_res
 import 'package:clima_exito/infraestructure/models/openweather/openweather_response.dart';
 import 'package:dio/dio.dart';
 
-// class OpenweatherDatasourceImpl extends WeatherDatasource {
-//   final dio = Dio(BaseOptions(queryParameters: {
-//     'appid': Environment.openWeatherKey,
-//     'lat': '4.86',
-//     'lon': '-74.053',
-//     'units': 'metric'
-//   }));
-
-//   @override
-//   Future<WeatherData> getCurrent() async {
-//     final response =
-//         await dio.get('https://api.openweathermap.org/data/2.5/weather');
-// // response.data;
-
-//     final openweatherResponse = OpenWeatherResponse.fromJson(response.data);
-//     final WeatherData weather =
-//         WeatherMapper.openWeatherToEntity(openweatherResponse);
-
-//     return weather;
-//   }
-// }
-
 class OpenweatherDatasourceImpl extends WeatherDatasource {
   final dio = Dio(BaseOptions(
     baseUrl: 'https://api.openweathermap.org/data/2.5/',

@@ -1,5 +1,3 @@
-
-
 class WeatherForecast {
   final DateTime datehour;
   final String icon;

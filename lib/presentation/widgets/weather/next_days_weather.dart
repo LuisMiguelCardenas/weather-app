@@ -55,13 +55,19 @@ class NextDaysWeatherState extends ConsumerState<NextDaysWeather> {
             itemBuilder: (context, index) {
               return FadeIn(
                 child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 3),
+                  margin: const EdgeInsets.symmetric(vertical: 3),
                   decoration: BoxDecoration(
-                    borderRadius:  BorderRadius.circular(10),
-                    border: Border(
-                        top: BorderSide(
-                            color: colors.onPrimaryFixed, width: 1.0)),
-                    color: colors.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: colors.inverseSurface, width: 1),
+                    color: colors.primaryContainer,
+                    boxShadow: [
+                      BoxShadow(
+                        color: colors.shadow.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 1,
+                        offset: const Offset(1, 2),
+                      ),
+                    ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
